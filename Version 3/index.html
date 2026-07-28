@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="LOOP STRATEGY – ein rundenbasiertes Strategiespiel für zwei Reihen."
+    />
+    <title>LOOP STRATEGY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <section id="menu-screen" class="menu-screen" aria-labelledby="menu-title">
+        <header class="menu-hero">
+          <p class="eyebrow">Rundenbasiertes Strategiespiel</p>
+          <h1 id="menu-title">LOOP STRATEGY</h1>
+          <p class="menu-intro">Wähle die Herausforderung für deine nächste Partie.</p>
+        </header>
+
+        <section id="mode-selection" class="menu-step" aria-labelledby="mode-title">
+          <p class="eyebrow">Schritt 1 von 2</p>
+          <h2 id="mode-title">Spielmodus wählen</h2>
+          <div class="selection-grid">
+            <button class="selection-card" data-game-mode="classic" type="button">
+              <span class="selection-number">01</span>
+              <strong>Klassisch</strong>
+              <span>Nimm dem Gegner alle Startmöglichkeiten.</span>
+            </button>
+            <button class="selection-card" data-game-mode="point-hunt" type="button">
+              <span class="selection-number">02</span>
+              <strong>Punktejagd</strong>
+              <span>Stehle zuerst 50 Punkte.</span>
+            </button>
+            <button class="selection-card" data-game-mode="quick" type="button">
+              <span class="selection-number">03</span>
+              <strong>Schnellspiel</strong>
+              <span>Leere die gegnerische Frontreihe.</span>
+            </button>
+          </div>
+        </section>
+
+        <section id="difficulty-selection" class="menu-step" aria-labelledby="difficulty-title" hidden>
+          <button id="back-to-modes" class="back-button" type="button">← Spielmodus ändern</button>
+          <p class="eyebrow">Schritt 2 von 2</p>
+          <h2 id="difficulty-title">KI-Schwierigkeit wählen</h2>
+          <p id="chosen-mode-summary" class="chosen-mode-summary"></p>
+          <div class="selection-grid selection-grid-two">
+            <button class="selection-card" data-difficulty="easy" type="button">
+              <span class="selection-number">01</span>
+              <strong>Leicht</strong>
+              <span>Eine regelkonforme Anfänger-KI mit spontanen Entscheidungen.</span>
+            </button>
+            <button class="selection-card" data-difficulty="hard" type="button">
+              <span class="selection-number">02</span>
+              <strong>Schwer</strong>
+              <span>Die bisherige KI: Sie bevorzugt gute Züge und wertvolle Stehleffekte.</span>
+            </button>
+          </div>
+        </section>
+      </section>
+
+      <section id="game-screen" hidden>
+        <header class="masthead">
+          <div>
+            <p class="eyebrow">LOOP STRATEGY</p>
+            <h1>Kettenzug</h1>
+          </div>
+          <button id="new-game" class="new-game" type="button">Neu starten</button>
+        </header>
+
+        <div class="game-context" aria-label="Partieeinstellungen">
+          <span id="mode-label"></span>
+          <span id="difficulty-label"></span>
+        </div>
+
+        <section id="score-panel" class="score-panel" aria-label="Punktestand der Punktejagd" hidden>
+          <span class="score-title">Gestohlene Punkte</span>
+          <div><span>Spieler</span><strong id="player-score">0</strong></div>
+          <div><span>Gegner</span><strong id="opponent-score">0</strong></div>
+          <span class="score-goal">Ziel: 50</span>
+        </section>
+
+        <section class="status-panel" aria-live="polite">
+          <div>
+            <span class="status-label">Am Zug</span>
+            <strong id="turn-label">Spieler</strong>
+          </div>
+          <p id="game-message">Lade Spielfeld …</p>
+          <div class="hand-counter" aria-label="Punkte in der Hand">
+            <span>Hand</span>
+            <strong id="hand-count">0</strong>
+          </div>
+        </section>
+
+        <section class="board-card" aria-label="Spielfeld">
+          <div class="track-note track-note-top" aria-hidden="true">
+            Geschlossene Strecke: Reihe 1 → · Reihe 2 ←
+          </div>
+          <div id="board" class="game-board"></div>
+          <div class="track-note track-note-bottom" aria-hidden="true">
+            Geschlossene Strecke: Reihe 4 → · Reihe 3 ←
+          </div>
+        </section>
+
+        <section class="controls" aria-label="Zugsteuerung">
+          <div>
+            <p class="eyebrow">Richtung</p>
+            <h2>Wie soll die Kette weiterlaufen?</h2>
+          </div>
+          <div class="direction-buttons">
+            <button class="direction-button" data-direction="clockwise" type="button">
+              <span aria-hidden="true">↻</span> Uhrzeigersinn
+            </button>
+            <button class="direction-button" data-direction="counterclockwise" type="button">
+              <span aria-hidden="true">↺</span> Gegenuhrzeigersinn
+            </button>
+            <button id="end-turn" class="end-turn-button" type="button" hidden>
+              Zug beenden
+            </button>
+          </div>
+        </section>
+
+        <section class="rules-card" aria-labelledby="rules-title">
+          <h2 id="rules-title">Kurzregeln</h2>
+          <p>
+            Wähle ein eigenes Feld mit mindestens zwei Punkten. Die Punkte werden auf deiner
+            geschlossenen Zwei-Reihen-Strecke verteilt. Landest du auf Punkten oder stiehlst du
+            aus der vorderen Reihe, läuft der Zug weiter.
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="game.js"></script>
+  </body>
+</html>
