@@ -433,3 +433,25 @@ setupInput({
 });
 
 showMainMenu();
+
+const rulesButton = document.getElementById("rules-button");
+const backFromRules = document.getElementById("back-from-rules");
+
+const menuScreen = document.getElementById("menu-screen");
+const rulesScreen = document.getElementById("rules-screen");
+
+
+rulesButton.addEventListener("click", () => {
+
+    menuScreen.hidden = true;
+    rulesScreen.hidden = false;
+
+});
+
+
+backFromRules.addEventListener("click", () => {
+
+    rulesScreen.hidden = true;
+    menuScreen.hidden = false;
+
+});

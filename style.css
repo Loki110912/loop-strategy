@@ -644,4 +644,13 @@ h2 {
   .direction-buttons {
     justify-content: flex-start;
   }
+
+#rules-screen .rules-card {
+    margin-bottom: 16px;
+}
+
+#rules-screen {
+    max-width: 800px;
+}
+
 }
