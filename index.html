@@ -176,6 +176,51 @@
         </div>
       </section>
 
+      <section id="end-screen" class="end-screen" aria-labelledby="end-title" aria-live="polite" hidden>
+        <div id="confetti-layer" class="confetti-layer" aria-hidden="true"></div>
+        <div class="end-panel">
+          <p id="end-eyebrow" class="eyebrow">Partie beendet</p>
+          <h1 id="end-title">🏆 SIEG!</h1>
+          <p id="end-message" class="end-message"></p>
+
+          <dl class="end-stats" aria-label="Partiestatistiken">
+            <div class="end-stat-card">
+              <dt>Spielmodus</dt>
+              <dd id="end-mode"></dd>
+            </div>
+            <div class="end-stat-card">
+              <dt>KI-Schwierigkeit</dt>
+              <dd id="end-difficulty"></dd>
+            </div>
+            <div class="end-stat-card">
+              <dt>Spielzeit</dt>
+              <dd id="end-duration"></dd>
+            </div>
+            <div class="end-stat-card">
+              <dt>Gespielte Züge</dt>
+              <dd id="end-moves"></dd>
+            </div>
+            <div class="end-stat-card">
+              <dt>Deine gestohlenen Punkte</dt>
+              <dd id="end-stolen"></dd>
+            </div>
+            <div class="end-stat-card">
+              <dt>Längster eigener Lauf</dt>
+              <dd id="end-longest-run"></dd>
+            </div>
+          </dl>
+
+          <div class="end-actions">
+            <button class="end-action end-action-primary" data-play-again type="button">
+              <span aria-hidden="true">🔄</span> Nochmal spielen
+            </button>
+            <button class="end-action" data-return-menu type="button">
+              <span aria-hidden="true">🏠</span> Zurück zum Menü
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section id="game-screen" hidden>
         <header class="masthead">
           <div>

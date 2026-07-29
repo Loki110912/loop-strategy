@@ -57,6 +57,19 @@ function rowMarkup(board, row, state, options) {
   ).join("")}</div>`;
 }
 
+function createConfettiMarkup() {
+  const colors = ["#f5c36a", "#82d8b7", "#e58772", "#9ba8ff", "#f4f0e7"];
+
+  return Array.from({ length: 36 }, (_, index) => {
+    const left = (index * 37) % 100;
+    const drift = ((index * 29) % 34) - 17;
+    const delay = 520 + ((index * 83) % 760);
+    const duration = 2700 + ((index * 71) % 900);
+    const color = colors[index % colors.length];
+    return `<span style="--confetti-left:${left}%; --confetti-drift:${drift}px; --confetti-delay:${delay}ms; --confetti-duration:${duration}ms; --confetti-color:${color}"></span>`;
+  }).join("");
+}
+
 export function createRenderer(documentRoot = document) {
   const boardElement = documentRoot.querySelector("#board");
   const turnLabel = documentRoot.querySelector("#turn-label");
@@ -66,6 +79,7 @@ export function createRenderer(documentRoot = document) {
   const endTurnButton = documentRoot.querySelector("#end-turn");
   const menuScreen = documentRoot.querySelector("#menu-screen");
   const rulesScreen = documentRoot.querySelector("#rules-screen");
+  const endScreen = documentRoot.querySelector("#end-screen");
   const gameScreen = documentRoot.querySelector("#game-screen");
   const modeSelection = documentRoot.querySelector("#mode-selection");
   const difficultySelection = documentRoot.querySelector("#difficulty-selection");
@@ -74,10 +88,21 @@ export function createRenderer(documentRoot = document) {
   const scorePanel = documentRoot.querySelector("#score-panel");
   const playerScore = documentRoot.querySelector("#player-score");
   const opponentScore = documentRoot.querySelector("#opponent-score");
+  const endEyebrow = documentRoot.querySelector("#end-eyebrow");
+  const endTitle = documentRoot.querySelector("#end-title");
+  const endMessage = documentRoot.querySelector("#end-message");
+  const endMode = documentRoot.querySelector("#end-mode");
+  const endDifficulty = documentRoot.querySelector("#end-difficulty");
+  const endDuration = documentRoot.querySelector("#end-duration");
+  const endMoves = documentRoot.querySelector("#end-moves");
+  const endStolen = documentRoot.querySelector("#end-stolen");
+  const endLongestRun = documentRoot.querySelector("#end-longest-run");
+  const confettiLayer = documentRoot.querySelector("#confetti-layer");
 
   function showModeSelection() {
     menuScreen.hidden = false;
     rulesScreen.hidden = true;
+    endScreen.hidden = true;
     gameScreen.hidden = true;
     modeSelection.hidden = false;
     difficultySelection.hidden = true;
@@ -86,6 +111,7 @@ export function createRenderer(documentRoot = document) {
   function showDifficultySelection() {
     menuScreen.hidden = false;
     rulesScreen.hidden = true;
+    endScreen.hidden = true;
     gameScreen.hidden = true;
     modeSelection.hidden = true;
     difficultySelection.hidden = false;
@@ -94,13 +120,34 @@ export function createRenderer(documentRoot = document) {
   function showGame() {
     menuScreen.hidden = true;
     rulesScreen.hidden = true;
+    endScreen.hidden = true;
     gameScreen.hidden = false;
   }
 
   function showRules() {
     menuScreen.hidden = true;
     gameScreen.hidden = true;
+    endScreen.hidden = true;
     rulesScreen.hidden = false;
+  }
+
+  function showEndScreen(summary) {
+    menuScreen.hidden = true;
+    rulesScreen.hidden = true;
+    gameScreen.hidden = true;
+    endScreen.classList.toggle("end-screen-win", summary.playerWon);
+    endScreen.classList.toggle("end-screen-loss", !summary.playerWon);
+    endEyebrow.textContent = summary.playerWon ? "Partie gewonnen" : "Partie beendet";
+    endTitle.textContent = summary.title;
+    endMessage.textContent = summary.message;
+    endMode.textContent = summary.stats.mode;
+    endDifficulty.textContent = summary.stats.difficulty;
+    endDuration.textContent = summary.stats.duration;
+    endMoves.textContent = summary.stats.moves;
+    endStolen.textContent = summary.stats.stolen;
+    endLongestRun.textContent = summary.stats.longestRun;
+    confettiLayer.innerHTML = summary.playerWon ? createConfettiMarkup() : "";
+    endScreen.hidden = false;
   }
 
   function renderGame(state, options = {}) {
@@ -146,5 +193,12 @@ export function createRenderer(documentRoot = document) {
     endTurnButton.disabled = !playerCanEndTurn;
   }
 
-  return { renderGame, showDifficultySelection, showGame, showModeSelection, showRules };
+  return {
+    renderGame,
+    showDifficultySelection,
+    showEndScreen,
+    showGame,
+    showModeSelection,
+    showRules,
+  };
 }

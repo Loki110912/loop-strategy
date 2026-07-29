@@ -9,9 +9,21 @@ export function setupInput({
   onBackToModes,
   onOpenRules,
   onCloseRules,
+  onPlayAgain,
+  onReturnToMenu,
   onRestart,
 }) {
   const onClick = (event) => {
+    if (event.target.closest("[data-play-again]")) {
+      onPlayAgain();
+      return;
+    }
+
+    if (event.target.closest("[data-return-menu]")) {
+      onReturnToMenu();
+      return;
+    }
+
     if (event.target.closest("[data-open-rules]")) {
       onOpenRules();
       return;

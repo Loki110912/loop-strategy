@@ -54,6 +54,155 @@ button {
   gap: 24px;
 }
 
+.end-screen {
+  position: relative;
+  display: grid;
+  min-height: calc(100vh - 98px);
+  place-items: center;
+  overflow: hidden;
+}
+
+.end-panel {
+  position: relative;
+  z-index: 1;
+  width: min(780px, 100%);
+  padding: clamp(24px, 5vw, 46px);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgb(32 36 43 / 92%);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.end-screen-win .end-panel {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+}
+
+.end-screen-loss .end-panel {
+  border-color: color-mix(in srgb, var(--opponent) 45%, var(--line));
+}
+
+.end-screen:not([hidden]) .end-panel {
+  animation: end-screen-enter 460ms ease-out both;
+}
+
+.end-panel h1 {
+  margin-bottom: 14px;
+  font-size: clamp(2.75rem, 8vw, 5.5rem);
+}
+
+.end-message {
+  max-width: 48ch;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  line-height: 1.5;
+}
+
+.end-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.end-stat-card {
+  min-height: 88px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #1b2027;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.end-screen:not([hidden]) .end-stat-card {
+  animation: stat-card-enter 360ms ease-out both;
+}
+
+.end-stat-card:nth-child(1) { animation-delay: 180ms; }
+.end-stat-card:nth-child(2) { animation-delay: 240ms; }
+.end-stat-card:nth-child(3) { animation-delay: 300ms; }
+.end-stat-card:nth-child(4) { animation-delay: 360ms; }
+.end-stat-card:nth-child(5) { animation-delay: 420ms; }
+.end-stat-card:nth-child(6) { animation-delay: 480ms; }
+
+.end-stat-card dt {
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-family: "DM Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.end-stat-card dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.end-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.end-action {
+  min-height: 54px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--ink);
+  background: var(--surface);
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.end-action:hover {
+  border-color: var(--accent);
+  background: var(--surface-high);
+  transform: translateY(-2px);
+}
+
+.end-action-primary {
+  border-color: color-mix(in srgb, var(--accent) 70%, var(--line));
+  color: #271e10;
+  background: var(--accent);
+}
+
+.end-action-primary:hover {
+  border-color: #ffe0a0;
+  background: #ffd988;
+}
+
+.end-action span {
+  margin-right: 4px;
+}
+
+.confetti-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confetti-layer span {
+  position: absolute;
+  top: -26px;
+  left: var(--confetti-left);
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--confetti-color);
+  opacity: 0;
+  transform: translateX(0) rotate(0deg);
+  animation: confetti-fall var(--confetti-duration) ease-in var(--confetti-delay) forwards;
+}
+
 .menu-hero {
   max-width: 760px;
 }
@@ -671,6 +820,38 @@ h2 {
   }
 }
 
+@keyframes end-screen-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes stat-card-enter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 0;
+    transform: translateX(0) rotate(0deg);
+  }
+  9% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(var(--confetti-drift)) translateY(112vh) rotate(540deg);
+  }
+}
+
 @media (max-width: 680px) {
   .game-shell {
     width: min(100% - 20px, 960px);
@@ -684,6 +865,27 @@ h2 {
 
   .rules-screen {
     gap: 18px;
+  }
+
+  .end-screen {
+    min-height: calc(100vh - 68px);
+  }
+
+  .end-panel {
+    padding: 24px 17px;
+  }
+
+  .end-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 24px 0;
+  }
+
+  .end-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .end-action {
+    min-height: 58px;
   }
 
   .rules-header {

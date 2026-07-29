@@ -10,6 +10,7 @@ import { createRenderer } from "./renderer.js";
 import {
   DIRECTIONS,
   DIFFICULTIES,
+  GAME_MODE_DETAILS,
   GAME_MODES,
   OPPONENT,
   PLAYER,
@@ -20,6 +21,7 @@ import {
   getOtherPlayer,
   getPlayerName,
   getSowingPath,
+  getDifficultyLabel,
   hasLegalMoves,
   isFrontRowEmpty,
   isFrontRow,
@@ -47,6 +49,12 @@ function newState(mode, difficulty) {
     mode,
     difficulty,
     scores: { [PLAYER]: 0, [OPPONENT]: 0 },
+    stats: {
+      startedAt: Date.now(),
+      finishedAt: null,
+      movesPlayed: 0,
+      longestPlayerRun: 0,
+    },
     currentPlayer: PLAYER,
     phase: "selecting-source",
     hand: 0,
@@ -71,7 +79,36 @@ function declareWinner(winner, message) {
   state.phase = "game-over";
   state.hand = 0;
   state.message = message;
-  render();
+  state.stats.finishedAt = Date.now();
+  renderer.showEndScreen(createEndSummary(winner));
+}
+
+function formatDuration(milliseconds) {
+  const seconds = Math.max(0, Math.floor(milliseconds / 1000));
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return minutes > 0 ? `${minutes} Min. ${remainingSeconds} Sek.` : `${remainingSeconds} Sek.`;
+}
+
+function createEndSummary(winner) {
+  const playerWon = winner === PLAYER;
+  const duration = (state.stats.finishedAt ?? Date.now()) - state.stats.startedAt;
+
+  return {
+    playerWon,
+    title: playerWon ? "🏆 SIEG!" : "🤖 Die KI gewinnt!",
+    message: playerWon
+      ? "Herzlichen Glückwunsch! Du hast die Partie gewonnen."
+      : "Du warst nah dran! Versuche es gleich noch einmal.",
+    stats: {
+      mode: GAME_MODE_DETAILS[state.mode].label,
+      difficulty: getDifficultyLabel(state.difficulty),
+      duration: formatDuration(duration),
+      moves: String(state.stats.movesPlayed),
+      stolen: String(state.scores[PLAYER]),
+      longestRun: `${state.stats.longestPlayerRun} Felder`,
+    },
+  };
 }
 
 function startNewGame() {
@@ -120,6 +157,14 @@ function handleCloseRules() {
   }
 
   renderer.showModeSelection();
+}
+
+function handlePlayAgain() {
+  startNewGame();
+}
+
+function handleReturnToMenu() {
+  showMainMenu();
 }
 
 function verifyWinCondition(player) {
@@ -189,6 +234,7 @@ async function beginMove(player, source, version) {
   state.currentPlayer = player;
   state.currentPos = source;
   state.hand = points;
+  state.stats.movesPlayed += 1;
   state.selectedDirection = null;
   state.phase = "picking-up";
   state.message = `${getPlayerName(player)} nimmt ${points} Punkte auf.`;
@@ -287,11 +333,18 @@ async function sowAndResolve(player, direction, version) {
   state.message = `${getPlayerName(player)} verteilt Punkte ${getDirectionLabel(direction)}.`;
   render();
 
+  let stepsInRun = 0;
+
   while (state.hand > 0 && isCurrent(version)) {
     state.currentPos = getNextCell(player, state.currentPos, direction);
     state.board[state.currentPos.row][state.currentPos.col] += 1;
     state.hand -= 1;
+    stepsInRun += 1;
     await animateSowingStep(renderer, state, state.currentPos);
+  }
+
+  if (player === PLAYER) {
+    state.stats.longestPlayerRun = Math.max(state.stats.longestPlayerRun, stepsInRun);
   }
 
   if (isCurrent(version)) {
@@ -462,6 +515,8 @@ setupInput({
   onBackToModes: showMainMenu,
   onOpenRules: handleOpenRules,
   onCloseRules: handleCloseRules,
+  onPlayAgain: handlePlayAgain,
+  onReturnToMenu: handleReturnToMenu,
   onRestart: startNewGame,
 });
 
