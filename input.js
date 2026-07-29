@@ -7,9 +7,21 @@ export function setupInput({
   onGameModeSelected,
   onDifficultySelected,
   onBackToModes,
+  onOpenRules,
+  onCloseRules,
   onRestart,
 }) {
   const onClick = (event) => {
+    if (event.target.closest("[data-open-rules]")) {
+      onOpenRules();
+      return;
+    }
+
+    if (event.target.closest("[data-close-rules]")) {
+      onCloseRules();
+      return;
+    }
+
     const modeButton = event.target.closest("[data-game-mode]");
     if (modeButton) {
       onGameModeSelected(modeButton.dataset.gameMode);

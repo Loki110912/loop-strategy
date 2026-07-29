@@ -49,6 +49,11 @@ button {
   gap: 34px;
 }
 
+.rules-screen {
+  display: grid;
+  gap: 24px;
+}
+
 .menu-hero {
   max-width: 760px;
 }
@@ -162,6 +167,98 @@ button {
   color: var(--accent);
 }
 
+.menu-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.rules-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.rules-header h1 {
+  margin-bottom: 0;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+}
+
+.rules-back-button {
+  margin: 10px 0 0;
+  padding: 10px 0;
+  font-weight: 600;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.rule-card {
+  padding: 23px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgb(32 36 43 / 80%);
+  box-shadow: var(--shadow);
+}
+
+.rule-card-wide {
+  grid-column: 1 / -1;
+}
+
+.rule-icon {
+  margin-bottom: 12px;
+  font-size: 1.45rem;
+}
+
+.rule-card h2 {
+  margin-bottom: 12px;
+  font-size: 1.35rem;
+}
+
+.rule-card p,
+.rule-card li,
+.mode-rules dd {
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.rule-card p:last-child,
+.rule-card ul:last-child,
+.mode-rules:last-child {
+  margin-bottom: 0;
+}
+
+.rule-card ul {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 16px;
+  padding-left: 20px;
+}
+
+.mode-rules {
+  display: grid;
+  gap: 11px;
+  margin: 15px 0 0;
+}
+
+.mode-rules div {
+  padding-left: 13px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 62%, var(--line));
+}
+
+.mode-rules dt {
+  margin-bottom: 3px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.mode-rules dd {
+  margin: 0;
+}
+
 .masthead,
 .status-panel,
 .controls {
@@ -257,7 +354,8 @@ h2 {
 
 .new-game,
 .direction-button,
-.end-turn-button {
+.end-turn-button,
+.rules-button {
   border: 1px solid var(--line);
   border-radius: 10px;
   color: var(--ink);
@@ -271,9 +369,19 @@ h2 {
   font-weight: 600;
 }
 
+.rules-button {
+  padding: 11px 16px;
+  font-weight: 600;
+}
+
+.rules-button span {
+  margin-right: 4px;
+}
+
 .new-game:hover,
 .direction-button:not(:disabled):hover,
-.end-turn-button:not(:disabled):hover {
+.end-turn-button:not(:disabled):hover,
+.rules-button:hover {
   border-color: var(--accent);
   background: var(--surface-high);
   transform: translateY(-2px);
@@ -534,6 +642,12 @@ h2 {
   color: var(--muted);
 }
 
+.rules-access-card {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
 .rules-card h2 {
   margin-bottom: 7px;
   color: var(--ink);
@@ -566,6 +680,31 @@ h2 {
   .menu-screen {
     min-height: calc(100vh - 68px);
     gap: 22px;
+  }
+
+  .rules-screen {
+    gap: 18px;
+  }
+
+  .rules-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .rules-back-button {
+    margin-top: 0;
+  }
+
+  .rules-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .rule-card,
+  .rule-card-wide {
+    grid-column: auto;
+    padding: 18px;
   }
 
   .menu-step {
@@ -644,13 +783,4 @@ h2 {
   .direction-buttons {
     justify-content: flex-start;
   }
-
-#rules-screen .rules-card {
-    margin-bottom: 16px;
-}
-
-#rules-screen {
-    max-width: 800px;
-}
-
 }

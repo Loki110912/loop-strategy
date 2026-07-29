@@ -65,6 +65,7 @@ export function createRenderer(documentRoot = document) {
   const directionButtons = [...documentRoot.querySelectorAll("[data-direction]")];
   const endTurnButton = documentRoot.querySelector("#end-turn");
   const menuScreen = documentRoot.querySelector("#menu-screen");
+  const rulesScreen = documentRoot.querySelector("#rules-screen");
   const gameScreen = documentRoot.querySelector("#game-screen");
   const modeSelection = documentRoot.querySelector("#mode-selection");
   const difficultySelection = documentRoot.querySelector("#difficulty-selection");
@@ -76,6 +77,7 @@ export function createRenderer(documentRoot = document) {
 
   function showModeSelection() {
     menuScreen.hidden = false;
+    rulesScreen.hidden = true;
     gameScreen.hidden = true;
     modeSelection.hidden = false;
     difficultySelection.hidden = true;
@@ -83,6 +85,7 @@ export function createRenderer(documentRoot = document) {
 
   function showDifficultySelection() {
     menuScreen.hidden = false;
+    rulesScreen.hidden = true;
     gameScreen.hidden = true;
     modeSelection.hidden = true;
     difficultySelection.hidden = false;
@@ -90,7 +93,14 @@ export function createRenderer(documentRoot = document) {
 
   function showGame() {
     menuScreen.hidden = true;
+    rulesScreen.hidden = true;
     gameScreen.hidden = false;
+  }
+
+  function showRules() {
+    menuScreen.hidden = true;
+    gameScreen.hidden = true;
+    rulesScreen.hidden = false;
   }
 
   function renderGame(state, options = {}) {
@@ -136,5 +146,5 @@ export function createRenderer(documentRoot = document) {
     endTurnButton.disabled = !playerCanEndTurn;
   }
 
-  return { renderGame, showDifficultySelection, showGame, showModeSelection };
+  return { renderGame, showDifficultySelection, showGame, showModeSelection, showRules };
 }

@@ -31,6 +31,8 @@ let gameVersion = 0;
 let state;
 let selectedMode = null;
 let selectedDifficulty = null;
+let currentMenuStep = "mode";
+let rulesReturnScreen = null;
 
 const AI_DELAYS = {
   BEFORE_TURN: 760,
@@ -89,6 +91,34 @@ function showMainMenu() {
   state = null;
   selectedMode = null;
   selectedDifficulty = null;
+  currentMenuStep = "mode";
+  renderer.showModeSelection();
+}
+
+function handleOpenRules() {
+  rulesReturnScreen = state ? "game" : currentMenuStep;
+  renderer.showRules();
+}
+
+function handleCloseRules() {
+  const returnScreen = rulesReturnScreen;
+  rulesReturnScreen = null;
+
+  if (returnScreen === "game" && state) {
+    renderer.showGame();
+    if (state.selectedDirection) {
+      renderDirectionPreview(state.selectedDirection);
+    } else {
+      render();
+    }
+    return;
+  }
+
+  if (returnScreen === "difficulty") {
+    renderer.showDifficultySelection();
+    return;
+  }
+
   renderer.showModeSelection();
 }
 
@@ -408,6 +438,7 @@ function handleGameModeSelected(mode) {
   }
 
   selectedMode = mode;
+  currentMenuStep = "difficulty";
   renderer.showDifficultySelection();
 }
 
@@ -429,29 +460,9 @@ setupInput({
   onGameModeSelected: handleGameModeSelected,
   onDifficultySelected: handleDifficultySelected,
   onBackToModes: showMainMenu,
+  onOpenRules: handleOpenRules,
+  onCloseRules: handleCloseRules,
   onRestart: startNewGame,
 });
 
 showMainMenu();
-
-const rulesButton = document.getElementById("rules-button");
-const backFromRules = document.getElementById("back-from-rules");
-
-const menuScreen = document.getElementById("menu-screen");
-const rulesScreen = document.getElementById("rules-screen");
-
-
-rulesButton.addEventListener("click", () => {
-
-    menuScreen.hidden = true;
-    rulesScreen.hidden = false;
-
-});
-
-
-backFromRules.addEventListener("click", () => {
-
-    rulesScreen.hidden = true;
-    menuScreen.hidden = false;
-
-});

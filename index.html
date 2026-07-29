@@ -25,10 +25,6 @@
           <p class="menu-intro">Wähle die Herausforderung für deine nächste Partie.</p>
         </header>
 
-        <button id="rules-button" class="back-button" type="button">
-  📖 Regeln
-</button>
-        
         <section id="mode-selection" class="menu-step" aria-labelledby="mode-title">
           <p class="eyebrow">Schritt 1 von 2</p>
           <h2 id="mode-title">Spielmodus wählen</h2>
@@ -64,127 +60,122 @@
             </button>
           </div>
         </section>
+
+        <div class="menu-actions">
+          <button class="rules-button" data-open-rules type="button">
+            <span aria-hidden="true">📖</span> Regeln
+          </button>
+        </div>
       </section>
 
-      <section id="rules-screen" class="menu-screen" hidden>
+      <section id="rules-screen" class="rules-screen" aria-labelledby="rules-screen-title" hidden>
+        <header class="rules-header">
+          <div>
+            <p class="eyebrow">LOOP STRATEGY</p>
+            <h1 id="rules-screen-title">Regeln</h1>
+          </div>
+          <button class="back-button rules-back-button" data-close-rules type="button">← Zurück</button>
+        </header>
 
-  <header class="menu-hero">
-    <p class="eyebrow">LOOP STRATEGY</p>
-    <h1>Regeln</h1>
-  </header>
+        <div class="rules-grid">
+          <article class="rule-card rule-card-wide">
+            <p class="rule-icon" aria-hidden="true">🎯</p>
+            <h2>Spielziel</h2>
+            <p>
+              LOOP STRATEGY ist ein rundenbasiertes Strategiespiel, bei dem du versuchst,
+              deine Punkte clever einzusetzen und den Gegner durch Kettenzüge auszuspielen.
+            </p>
+            <p>Das genaue Ziel hängt vom gewählten Spielmodus ab:</p>
+            <dl class="mode-rules">
+              <div>
+                <dt>Klassisch</dt>
+                <dd>
+                  Nimm dem Gegner alle möglichen Startfelder. Sobald er kein Feld mehr besitzt,
+                  von dem aus er einen Zug beginnen kann, gewinnst du die Partie.
+                </dd>
+              </div>
+              <div>
+                <dt>Punktejagd</dt>
+                <dd>
+                  Stehle möglichst viele Punkte aus der gegnerischen Reihe. Wer zuerst insgesamt
+                  50 gestohlene Punkte erreicht, gewinnt.
+                </dd>
+              </div>
+              <div>
+                <dt>Schnellspiel</dt>
+                <dd>
+                  Du gewinnst, sobald die gegnerische Reihe, aus der Punkte gestohlen werden
+                  können, vollständig geleert wurde.
+                </dd>
+              </div>
+            </dl>
+          </article>
 
+          <article class="rule-card">
+            <p class="rule-icon" aria-hidden="true">📦</p>
+            <h2>Spielfeld und Aufbau</h2>
+            <p>Das Spielfeld besteht aus vier Reihen mit jeweils fünf Feldern.</p>
+            <ul>
+              <li>Die unteren beiden Reihen gehören dem Spieler.</li>
+              <li>Die oberen beiden Reihen gehören dem Gegner.</li>
+              <li>Zu Beginn besitzt jedes Feld zwei Punkte.</li>
+            </ul>
+            <p>
+              Die Reihen sind miteinander verbunden und bilden eine geschlossene Strecke.
+              Dadurch können sich Bewegungen über mehrere Felder fortsetzen und lange
+              Kettenzüge entstehen.
+            </p>
+          </article>
 
-  <section class="rules-card">
+          <article class="rule-card rule-card-wide">
+            <p class="rule-icon" aria-hidden="true">🔄</p>
+            <h2>Kettenzüge</h2>
+            <p>Ein Zug beginnt immer mit der Auswahl eines eigenen Feldes.</p>
+            <ul>
+              <li>Du kannst nur ein Feld mit mindestens zwei Punkten auswählen.</li>
+              <li>Alle Punkte dieses Feldes werden aufgenommen und liegen in deiner Hand.</li>
+              <li>Anschließend entscheidest du, in welche Richtung deine Kette laufen soll.</li>
+            </ul>
+            <p>
+              Die Punkte werden nacheinander auf den Feldern der Strecke verteilt. Hast du zum
+              Beispiel fünf Punkte in der Hand, legst du je einen Punkt auf die nächsten fünf
+              Felder. Landest du auf einem Feld, auf dem bereits Punkte liegen, nimmst du diese
+              wieder auf und setzt deinen Zug fort.
+            </p>
+            <p>
+              So entstehen aus kleinen Zügen lange Kombinationen. Gute Planung kann dir neue
+              Möglichkeiten eröffnen – oder dem Gegner helfen.
+            </p>
+          </article>
 
-    <h2>🎯 Spielziel</h2>
+          <article class="rule-card">
+            <p class="rule-icon" aria-hidden="true">💰</p>
+            <h2>Stehlen</h2>
+            <p>
+              Wenn du nach einem Lauf in die hintere deiner beiden Reihen gelangst – also die
+              ganz untere Reihe auf deinem Bildschirm – werden automatisch alle Punkte aus der
+              hinteren Reihe des Gegners, der obersten Reihe auf deinem Bildschirm, gestohlen.
+            </p>
+            <p>
+              Diese gestohlenen Punkte werden deinem Punktestand gutgeschrieben und können je
+              nach Spielmodus direkt zum Sieg beitragen.
+            </p>
+          </article>
 
-    <p>
-      LOOP STRATEGY ist ein rundenbasiertes Strategiespiel, bei dem du versuchst, deine Punkte clever einzusetzen und den Gegner durch Kettenzüge auszuspielen.
-      Das genaue Ziel hängt vom gewählten Spielmodus ab:
-    </p>
+          <article class="rule-card">
+            <p class="rule-icon" aria-hidden="true">🕹️</p>
+            <h2>Steuerung</h2>
+            <p>Nach einem Kettenzug musst du die Richtung auswählen.</p>
+            <ul>
+              <li>Erster Klick: Eine Vorschau des vollständigen Laufwegs wird angezeigt.</li>
+              <li>Zweiter Klick auf dieselbe Richtung: Der Zug wird bestätigt und ausgeführt.</li>
+              <li>Ein Klick auf die andere Richtung zeigt stattdessen deren Vorschau.</li>
+            </ul>
+            <p>Falls dein Zug beendet werden kann, erscheint zusätzlich „Zug beenden“.</p>
+          </article>
+        </div>
+      </section>
 
-    <p>
-      <strong>Klassisch:</strong>
-      Dein Ziel ist es, dem Gegner alle möglichen Startfelder zu nehmen. Sobald der Gegner kein Feld mehr besitzt, von dem aus er einen Zug beginnen kann, gewinnst du die Partie.
-    </p>
-
-    <p>
-      <strong>Punktejagd:</strong>
-      Hier geht es darum, möglichst viele Punkte aus der gegnerischen Reihe zu stehlen. Wer zuerst insgesamt 50 gestohlene Punkte erreicht, gewinnt.
-    </p>
-
-    <p>
-      <strong>Schnellspiel:</strong>
-      In diesem Modus zählt Geschwindigkeit. Du gewinnst, sobald die gegnerische Reihe, aus der Punkte gestohlen werden können, vollständig geleert wurde.
-    </p>
-
-
-  </section>
-
-
-  <section class="rules-card">
-
-    <h2>📦 Spielfeld und Aufbau</h2>
-
-    <p>
-      Das Spielfeld besteht aus vier Reihen mit jeweils fünf Feldern.
-      Jeder Spieler kontrolliert zwei Reihen:
-      - Die unteren beiden Reihen gehören dem Spieler.
-      - Die oberen beiden Reihen gehören dem Gegner.
-      Zu Beginn besitzt jedes Feld zwei Punkte.
-      Die Reihen sind miteinander verbunden und bilden eine geschlossene Strecke. Dadurch können sich Bewegungen über mehrere Felder fortsetzen und lange Kettenzüge entstehen.
-    </p>
-
-  </section>
-
-
-  <section class="rules-card">
-
-    <h2>🔄 Kettenzüge</h2>
-
-    <p>
-      Ein Zug beginnt immer mit der Auswahl eines eigenen Feldes.
-      Dabei gilt:
-      - Du kannst nur ein Feld auswählen, das mindestens zwei Punkte besitzt.
-      - Alle Punkte dieses Feldes werden aufgenommen.
-      - Die Punkte befinden sich nun "in deiner Hand".
-      Anschließend musst du entscheiden, in welche Richtung deine Kette laufen soll.
-
-      Der besondere Teil von LOOP STRATEGY sind die Kettenzüge.
-      Die Punkte werden nacheinander auf den Feldern der Strecke verteilt.
-      Beispiel:
-      Du hast 5 Punkte in der Hand.
-      Du verteilst:
-      1. Punkt → nächstes Feld  
-      2. Punkt → nächstes Feld  
-      3. Punkt → nächstes Feld  
-      4. Punkt → nächstes Feld  
-      5. Punkt → nächstes Feld
-      Landest du auf einem Feld, auf dem bereits Punkte liegen, nimmst du diese wieder auf und setzt deinen Zug fort.
-      Dadurch können aus einem kleinen Zug lange Kombinationen entstehen.
-      Gute Planung ist entscheidend:
-      Ein Zug kann dir viele neue Möglichkeiten eröffnen – oder dem Gegner helfen.
-    </p>
-
-  </section>
-
-
-  <section class="rules-card">
-
-    <h2>💰 Stehlen</h2>
-
-    <p>
-    Wenn du nach einem Lauf in die hintere Reihe deiner Reihen kommst, also die Reihe die ganz unten auf deinem Bildschirm ist, werden die Punkte des Gegners in seiner hinteren Reihe also der obersten Reihe auf deinem Bildschirm, gestohlen.
-  
-    </p>
-
-  </section>
-
-
-  <section class="rules-card">
-
-    <h2>🕹️ Steuerung</h2>
-
-    <p>
-      Nach einem Kettenzug musst du die Richtung auswählen.
-      Die Steuerung funktioniert so:
-      Erster Klick auf eine Richtung
-      → Du erhältst eine Vorschau des möglichen Weges.
-      Zweiter Klick auf dieselbe Richtung
-      → Der Zug wird bestätigt und ausgeführt.
-      Wenn du deine Meinung änderst, kannst du eine andere Richtung auswählen und die neue Vorschau ansehen.
-    </p>
-
-  </section>
-
-
-  <button id="back-from-rules" class="back-button" type="button">
-    ← Zurück zum Menü
-  </button>
-
-
-</section>
-      
       <section id="game-screen" hidden>
         <header class="masthead">
           <div>
@@ -246,13 +237,10 @@
           </div>
         </section>
 
-        <section class="rules-card" aria-labelledby="rules-title">
-          <h2 id="rules-title">Kurzregeln</h2>
-          <p>
-            Wähle ein eigenes Feld mit mindestens zwei Punkten. Die Punkte werden auf deiner
-            geschlossenen Zwei-Reihen-Strecke verteilt. Landest du auf Punkten oder stiehlst du
-            aus der vorderen Reihe, läuft der Zug weiter.
-          </p>
+        <section class="rules-card rules-access-card" aria-label="Regeln öffnen">
+          <button class="rules-button" data-open-rules type="button">
+            <span aria-hidden="true">📖</span> Regeln
+          </button>
         </section>
       </section>
     </main>
